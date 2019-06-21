@@ -96,3 +96,17 @@ cc_library_static {
         "bpftrace_parser_headers",
     ],
 }
+
+cc_binary {
+    name: "bpftrace",
+    defaults: ["bpftrace_defaults"],
+    srcs: ["*.cpp"],
+    static_libs: [
+        "bpftrace_arch",
+        "bpftrace_ast",
+        "bpftrace_parser",
+    ],
+    generated_sources: [
+        "bpftrace_resources",
+    ],
+}
