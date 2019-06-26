@@ -24,6 +24,8 @@ cc_defaults {
         "-Wno-unused-parameter",
         "-Wno-braced-scalar-init",
         "-DBPFTRACE_VERSION=\"v0.9-236-g012e\"",
+        "-DHAVE_BCC_PROG_LOAD=1",
+        "-DHAVE_BCC_CREATE_MAP=1",
     ],
 
     cppflags: [
