@@ -13,6 +13,7 @@
 
 #include "utils.h"
 #include "bcc_usdt.h"
+#include "kbuild_helper.h"
 
 namespace {
 
@@ -330,6 +331,11 @@ std::tuple<std::string, std::string> get_kernel_dirs(const struct utsname& utsna
   const char *kpath_env = ::getenv("BPFTRACE_KERNEL_SOURCE");
   if (kpath_env)
     return std::make_tuple(kpath_env, kpath_env);
+
+  std::string kheaders;
+  if (!ebpf::get_proc_kheaders(kheaders)) {
+    return std::make_tuple(kheaders, kheaders);
+  }
 
   std::string kdir = std::string("/lib/modules/") + utsname.release;
   auto ksrc = kdir + "/source";
