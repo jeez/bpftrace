@@ -11,6 +11,7 @@ $(ANDROID_BUILD_DIR)/llvm: llvm/sources
 endif
 
 LLVM_EXTRA_CMAKE_FLAGS = -DLLVM_ENABLE_PROJECTS=clang -DCMAKE_BUILD_TYPE=Release
+LLVM_EXTRA_HOST_FLAGS = -DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=1
 
 # builds and installs llvm and clang libraries for Android. This rule uses
 # llvm.done empty file instead of all the installed llvm/clang binaries to keep
@@ -47,10 +48,12 @@ $(HOST_OUT_DIR)/bin/llvm-config $(HOST_OUT_DIR)/bin/llvm-tblgen $(HOST_OUT_DIR)/
 # generates llvm build files for host
 $(HOST_BUILD_DIR)/llvm: $(LLVM_SOURCE_DEPS) | $(HOST_BUILD_DIR)
 	-mkdir $@
-	cd $@ && $(CMAKE) $(LLVM_SOURCES) $(LLVM_EXTRA_CMAKE_FLAGS)
+	cd $@ && $(CMAKE) $(LLVM_SOURCES) \
+		$(LLVM_EXTRA_CMAKE_FLAGS) \
+		$(LLVM_EXTRA_HOST_FLAGS)
 
 # managing sources of the default llvm version
-LLVM_BRANCH_OR_TAG = llvmorg-7.0.1
+LLVM_BRANCH_OR_TAG = llvmorg-8.0.0
 LLVM_REPO = https://github.com/llvm/llvm-project
 
 llvm/sources:

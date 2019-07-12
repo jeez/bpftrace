@@ -27,7 +27,7 @@ $(ANDROID_BUILD_DIR)/bpftrace: | $(ANDROID_BUILD_DIR)
 		-DFLEX_EXECUTABLE=$(abspath $(HOST_OUT_DIR)/bin/flex)
 
 # managing sources of the default python version
-BPFTRACE_COMMIT_HASH = 7d196ea5d0cd84dcaff20c58ccc7ebf47ec728ac
+BPFTRACE_COMMIT_HASH = v0.9.1
 BPFTRACE_REPO = https://github.com/iovisor/bpftrace.git/
 
 bpftrace/sources:

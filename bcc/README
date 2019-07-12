@@ -2,7 +2,7 @@ BPF Compiler Collection (BCC)
 github:https://github.com/iovisor/bcc
 Toolkit for creating BPF based tracing tools.
 
-Default version: https://github.com/michalgr/bcc/tree/compile-for-android
+Default version: v0.10.0
 
 Building:
 - cmake file does not correctly recognize linker flags and we need to tell
