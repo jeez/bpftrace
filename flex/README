@@ -1,9 +1,7 @@
 flex
 flex is the fast lexical analyzer generator: https://github.com/westes/flex
 
-Default version: v2.6.4
-This is the most recent release up to date.
-https://github.com/westes/flex/files/981163/flex-2.6.4.tar.gz
+Default version: 98018e3f58d79e082216d406866942841d4bdf8a
 
 Building
 flex is packaged with autoconf and builds without major problems. The only catch
