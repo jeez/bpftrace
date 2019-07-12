@@ -10,7 +10,7 @@ $(HOST_BUILD_DIR)/llvm: llvm/sources
 $(ANDROID_BUILD_DIR)/llvm: llvm/sources
 endif
 
-LLVM_EXTRA_CMAKE_FLAGS = -DLLVM_ENABLE_PROJECTS=clang -DCMAKE_BUILD_TYPE=Release
+LLVM_EXTRA_CMAKE_FLAGS = -DLLVM_ENABLE_PROJECTS=clang
 LLVM_EXTRA_HOST_FLAGS = -DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=1
 
 # builds and installs llvm and clang libraries for Android. This rule uses
