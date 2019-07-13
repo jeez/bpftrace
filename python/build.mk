@@ -11,13 +11,15 @@ endif
 PYTHON_CONFIG_SITE ?= $(abspath python/config.site)
 
 PYTHON_EXTRA_ENV_DEFS += CONFIG_SITE=$(PYTHON_CONFIG_SITE)
-PYTHON_EXTRA_CONFIG_OPTIONS = --build=x86_64 --disable-ipv6 --without-ensurepip
+PYTHON_EXTRA_ENV_DEFS += PKG_CONFIG_LIBDIR=$(abspath out/android/lib/pkgconfig)
+PYTHON_EXTRA_ENV_DEFS += LDFLAGS=-L$(abspath out/android/lib64)
+PYTHON_EXTRA_CONFIG_OPTIONS = --build=x86_64 --disable-ipv6 --without-ensurepip --with-system-ffi
 
 $(ANDROID_BUILD_DIR)/python.done: $(ANDROID_BUILD_DIR)/python
 	cd $(ANDROID_BUILD_DIR)/python && make install -j $(THREADS)
 	touch $@
 
-$(ANDROID_BUILD_DIR)/python: $(ANDROID_TOOLCHAIN_DIR) | $(ANDROID_BUILD_DIR)
+$(ANDROID_BUILD_DIR)/python: $(ANDROID_TOOLCHAIN_DIR) ffi | $(ANDROID_BUILD_DIR)
 	mkdir -p $@
 	cd $@ && $(PYTHON_EXTRA_ENV_DEFS) $(PYTHON_SOURCES)/configure \
 		$(ANDROID_EXTRA_CONFIGURE_FLAGS) \

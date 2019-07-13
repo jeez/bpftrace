@@ -42,6 +42,9 @@ $(SYSROOT_NAME): scripts python bcc bpftrace $(ANDROID_OUT_DIR)/lib/libc++_share
 
 	cp -a $(ANDROID_OUT_DIR)/lib/python3* $@/lib/
 
+	mkdir -p $@/lib64
+	cp $(ANDROID_OUT_DIR)/lib64/libffi* $@/lib64/
+
 	mkdir -p $@/share
 	cp -a $(ANDROID_OUT_DIR)/share/bcc $@/share/
 
