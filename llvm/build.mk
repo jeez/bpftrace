@@ -17,7 +17,11 @@ LLVM_EXTRA_HOST_FLAGS = -DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=1
 # llvm.done empty file instead of all the installed llvm/clang binaries to keep
 # track of whether the rules need to be rerun (for simiplicity)
 $(ANDROID_BUILD_DIR)/llvm.done: $(ANDROID_BUILD_DIR)/llvm | $(ANDROID_OUT_DIR)
+ifeq ($(BUILD_TYPE), Debug)
+	cd $(ANDROID_BUILD_DIR)/llvm && $(MAKE) install -j $(THREADS)
+else
 	cd $(ANDROID_BUILD_DIR)/llvm && $(MAKE) install/strip -j $(THREADS)
+endif
 	touch $@
 
 # generates llvm build files for Android

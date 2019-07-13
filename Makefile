@@ -17,6 +17,8 @@ FULL_NAME = $(BASE_NAME)-$(RELEASE_VERSION)
 SYSROOT_NAME = $(FULL_NAME)
 ARCHIVE_NAME = $(SYSROOT_NAME).tar.gz
 
+BUILD_TYPE ?= Release
+
 all: $(ARCHIVE_NAME)
 
 include toolchain.mk
