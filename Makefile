@@ -49,6 +49,8 @@ $(SYSROOT_NAME): scripts python bcc bpftrace $(ANDROID_OUT_DIR)/lib/libc++_share
 	cp -a $(ANDROID_OUT_DIR)/share/bcc $@/share/
 
 	cp -r $(ANDROID_OUT_DIR)/*.sh $@/
+	cp -r $(ANDROID_OUT_DIR)/bpftrace $@/
+	cp -r $(ANDROID_OUT_DIR)/python3 $@/
 
 $(ARCHIVE_NAME): $(SYSROOT_NAME)
 	$(TAR) -zcf $@ $(SYSROOT_NAME) --owner=0 --group=0

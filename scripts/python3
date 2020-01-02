@@ -1,0 +1,4 @@
+#!/system/bin/env sh
+
+SYSROOT=$(realpath $(dirname $_))
+exec "${SYSROOT}/run.sh" "python3" "$@"
