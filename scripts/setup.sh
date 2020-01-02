@@ -30,6 +30,7 @@ export LD_LIBRARY_PATH=$SYSROOT/lib:$SYSROOT/lib64:$LD_LIBRARY_PATH
 export ARCH="arm64"
 export BPFTRACE_KERNEL_SOURCE=$SYSROOT/kernel-headers
 export BCC_KERNEL_SOURCE=$SYSROOT/kernel-headers
+export BCC_SYMFS=/data/local/tmp/symbols
 
 # tell python where to find bcc in case we built the package on ubuntu/debian
 export PYTHONPATH=$SYSROOT/lib/python3/dist-packages:$PYTHONPATH
