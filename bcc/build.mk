@@ -42,7 +42,7 @@ $(ANDROID_BUILD_DIR)/bcc: | $(ANDROID_BUILD_DIR)
 		-DPYTHON_CMD=python3.6
 
 # managing sources of the default python version
-BCC_COMMIT_HASH = v0.10.0
+BCC_COMMIT_HASH = v0.12.0
 BCC_REPO = https://github.com/iovisor/bcc.git
 
 bcc/sources:

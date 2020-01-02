@@ -2,7 +2,7 @@ BPF Compiler Collection (BCC)
 github:https://github.com/iovisor/bcc
 Toolkit for creating BPF based tracing tools.
 
-Default version: v0.10.0
+Default version: v0.12.0
 
 Building:
 - cmake file does not correctly recognize linker flags and we need to tell

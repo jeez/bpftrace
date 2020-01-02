@@ -2,7 +2,7 @@ bpftrace
 High-level tracing language for Linux eBPF
 github: https://github.com/iovisor/bpftrace
 
-Default version: v0.9.1
+Default version: v0.9.3
 
 Building:
 - bpftrace depends on bcc and needs to be told where to look for headers
