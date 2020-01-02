@@ -1,3 +1,5 @@
+#!/system/bin/env sh
+
 SYSROOT=$(realpath $(dirname $_))
 
 echo "setting up sysroot installed at $SYSROOT"
