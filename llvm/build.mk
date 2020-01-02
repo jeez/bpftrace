@@ -38,6 +38,7 @@ $(ANDROID_BUILD_DIR)/llvm: | $(ANDROID_BUILD_DIR)
 		-DLLVM_CONFIG_PATH=$(abspath $(HOST_OUT_DIR)/bin/llvm-config) \
 		-DLLVM_TABLEGEN=$(abspath $(HOST_OUT_DIR)/bin/llvm-tblgen) \
 		-DCLANG_TABLEGEN=$(abspath $(HOST_OUT_DIR)/bin/clang-tblgen) \
+		-DLLVM_HOST_TRIPLE="aarch64-none-linux-gnu" \
 		-DLLVM_ENABLE_RTTI=yes
 
 # rules building host llvm-tblgen and clang-tblgen binaries necessary to
