@@ -1,11 +1,19 @@
 NDK_API = 28
-NDK_ARCH = arm64
 NDK_PATH = /opt/android_ndk/r17fb1
+
+ifeq ($(NDK_ARCH), arm64)
 ANDROID_TRIPLE = aarch64-linux-android
+CMAKE_ABI = arm64-v8a
+else ifeq ($(NDK_ARCH), x86_64)
+ANDROID_TRIPLE = x86_64-linux-android
+CMAKE_ABI = x86_64
+else
+$(error unknown abi $(NDK_ARCH))
+endif
 
 CMAKE = cmake
 
-ANDROID_TOOLCHAIN_DIR = toolchain
+ANDROID_TOOLCHAIN_DIR = toolchain/$(NDK_ARCH)
 ANDROID_CMAKE_TOOLCHAIN_FILE = $(ANDROID_BUILD_DIR)/toolchain-$(NDK_ARCH).cmake
 ANDROID_EXTRA_CMAKE_FLAGS = -DCMAKE_TOOLCHAIN_FILE=$(abspath $(ANDROID_CMAKE_TOOLCHAIN_FILE))
 ANDROID_EXTRA_CMAKE_FLAGS += -DCMAKE_INSTALL_PREFIX=$(abspath $(ANDROID_OUT_DIR))
@@ -42,8 +50,9 @@ $(ANDROID_TOOLCHAIN_DIR):
 # toolchain file we use cd and sed to introduce few macros which resolve
 # to the required path. This way we don't need to generate the entire
 # file and we don't need to worry with path expansion.
-$(ANDROID_CMAKE_TOOLCHAIN_FILE): toolchain-$(NDK_ARCH).cmake
+$(ANDROID_CMAKE_TOOLCHAIN_FILE): toolchain.cmake
 	mkdir -p $(ANDROID_BUILD_DIR)
-	cp toolchain-$(NDK_ARCH).cmake $@
+	cp $< $@
+	@sed -ibkp -e "s+<ABI>+$(CMAKE_ABI)+" $@
 	@sed -ibkp -e "s+<TOOLCHAIN_PATH>+$(abspath $(ANDROID_TOOLCHAIN_DIR))+" $@
 	@sed -ibkp -e "s+<FIND_ROOT_PATH>+$(abspath $(ANDROID_OUT_DIR))+" $@

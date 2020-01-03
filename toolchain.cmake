@@ -1,7 +1,7 @@
 set(CMAKE_SYSTEM_NAME Android)
 set(CMAKE_SYSTEM_VERSION 28)
 set(CMAKE_ANDROID_STANDALONE_TOOLCHAIN <TOOLCHAIN_PATH>)
-set(CMAKE_ANDROID_ARCH_ABI arm64-v8a)
+set(CMAKE_ANDROID_ARCH_ABI <ABI>)
 
 # look up for cmake, header and so files in our output directory
 set(CMAKE_FIND_ROOT_PATH <FIND_ROOT_PATH>)

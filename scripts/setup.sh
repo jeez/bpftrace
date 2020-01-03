@@ -29,7 +29,7 @@ export LD_LIBRARY_PATH=$SYSROOT/lib:$SYSROOT/lib64:$LD_LIBRARY_PATH
 
 # define environment variables bpftrace and bcc need to determine arch and
 # kernel source path
-export ARCH="arm64"
+export ARCH="<TARGET_ARCH_ENV_VAR>"
 export BPFTRACE_KERNEL_SOURCE=$SYSROOT/kernel-headers
 export BCC_KERNEL_SOURCE=$SYSROOT/kernel-headers
 export BCC_SYMFS=/data/local/tmp/symbols

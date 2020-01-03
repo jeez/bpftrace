@@ -2,18 +2,21 @@
 # option. To speed up the build invoke make like this: `make THREADS=16`
 THREADS ?= 4
 
+# default arch: arm64 or x86_64
+NDK_ARCH ?= arm64
+
 BUILD_DIR = build
-ANDROID_BUILD_DIR = $(BUILD_DIR)/android
+ANDROID_BUILD_DIR = $(BUILD_DIR)/android/$(NDK_ARCH)
 HOST_BUILD_DIR = $(BUILD_DIR)/host
 DOWNLOADS_DIR = $(BUILD_DIR)/downloads
 
 OUT_DIR = out
-ANDROID_OUT_DIR = $(OUT_DIR)/android
+ANDROID_OUT_DIR = $(OUT_DIR)/android/$(NDK_ARCH)
 HOST_OUT_DIR = $(OUT_DIR)/host
 
 BASE_NAME = bpftools
 RELEASE_VERSION ?= 0.0.1
-FULL_NAME = $(BASE_NAME)-$(RELEASE_VERSION)
+FULL_NAME = $(BASE_NAME)-$(NDK_ARCH)-$(RELEASE_VERSION)
 SYSROOT_NAME = $(FULL_NAME)
 ARCHIVE_NAME = $(SYSROOT_NAME).tar.gz
 

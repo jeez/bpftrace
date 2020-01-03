@@ -10,6 +10,14 @@ $(HOST_BUILD_DIR)/llvm: llvm/sources
 $(ANDROID_BUILD_DIR)/llvm: llvm/sources
 endif
 
+ifeq ($(NDK_ARCH), arm64)
+LLVM_HOST_TRIPLE = aarch64-none-linux-gnu
+else ifeq ($(NDK_ARCH), x86_64)
+LLVM_HOST_TRIPLE = x86_64-none-linux-gnu
+else
+$(error unknown abi $(NDK_ARCH))
+endif
+
 LLVM_EXTRA_CMAKE_FLAGS = -DLLVM_ENABLE_PROJECTS=clang
 LLVM_EXTRA_HOST_FLAGS = -DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=1
 
@@ -38,7 +46,7 @@ $(ANDROID_BUILD_DIR)/llvm: | $(ANDROID_BUILD_DIR)
 		-DLLVM_CONFIG_PATH=$(abspath $(HOST_OUT_DIR)/bin/llvm-config) \
 		-DLLVM_TABLEGEN=$(abspath $(HOST_OUT_DIR)/bin/llvm-tblgen) \
 		-DCLANG_TABLEGEN=$(abspath $(HOST_OUT_DIR)/bin/clang-tblgen) \
-		-DLLVM_HOST_TRIPLE="aarch64-none-linux-gnu" \
+		-DLLVM_HOST_TRIPLE=$(LLVM_HOST_TRIPLE) \
 		-DLLVM_ENABLE_RTTI=yes
 
 # rules building host llvm-tblgen and clang-tblgen binaries necessary to
