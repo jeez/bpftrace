@@ -19,6 +19,12 @@ BCC_EXTRA_CFLAGS += "-D__user="
 # symbols that are not provided by bionic.
 BCC_EXTRA_CFLAGS += "-include$(abspath bcc/android_fixups/dl_fixups.h)"
 
+# bits/reg.h header defining __WORDSIZE is missing, we need to provide our own
+BCC_EXTRA_CFLAGS += "-I$(abspath bcc/android_fixups)"
+
+# stl we're building with provides std::make_unique, do not redefine it
+BCC_EXTRA_CFLAGS += "-D__cpp_lib_make_unique"
+
 # builds and installs bcc for Android.
 $(ANDROID_BUILD_DIR)/bcc.done: $(ANDROID_BUILD_DIR)/bcc
 ifeq ($(BUILD_TYPE), Debug)
