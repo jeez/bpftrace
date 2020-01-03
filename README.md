@@ -4,6 +4,7 @@ This branch contains makefiles preparing custom sysroot for Android containing:
 - [bcc](https://github.com/iovisor/bcc)
 - [python](https://github.com/python/cpython)
 - [llvm + clang](https://github.com/llvm/llvm-project)
+- [libffi](https://github.com/libffi/libffi)
 - [flex](https://github.com/westes/flex)
 - [elfutils](https://sourceware.org/elfutils/)
 - [argp (part of gnulib)](https://www.gnu.org/software/gnulib/)
@@ -30,24 +31,28 @@ Host machine needs to run
 - Linux kernel supporting bpf tracing, see [Kernel requirements](#Kernel-requirements)
 
 ## Usage
-Following commands build and copy custom sysroot to connected Android device under `/data/local/tmp/bpftools-0.0.1`:
+Following commands build and copy custom sysroot to connected Android device under `/data/local/tmp/bpftools-$ARCH-$VERSION`:
 
 ```bash
 make THREADS=8 NDK_PATH=<path to android-ndk-r17>
 make install
 ```
 
-In order to make bpftrace available in current `adb shell` session you need to set `PATH` (`/data/local/tmp/bpftools-0.0.1/bin`) and `LD_LIBRARY_PATH` (`/data/local/tmp/bpftools-0.0.1/lib`) environment variables. This is automated by `setup.sh` script which you can source instead setting vars by hand. The script also takes care of creating symlinks inside `/data/local/tmp/bpftools-0.0.1/lib` making some libraries available under names expected by bcc's python frontend.
+In order to make bpftrace available in current `adb shell` session you need to set `PATH` (`/data/local/tmp/bpftools-$ARCH-$VERSION/bin`) and `LD_LIBRARY_PATH` (`/data/local/tmp/bpftools-$ARCH-$VERSION/lib`) environment variables. This is automated by `setup.sh` script which you can source instead setting vars by hand. The script also takes care of creating symlinks inside `/data/local/tmp/bpftools-$ARCH-$VERSION/lib` making some libraries available under names expected by bcc's python frontend.
 
 Inside `adb shell` run:
 ```bash
-. /data/local/tmp/bpftools-0.0.1/setup.sh
+. /data/local/tmp/bpftools-$ARCH-$VERSION/setup.sh
 ```
 
-In order to enable bpftrace to operate on kernel data structures you need to tell it where to look for kernel headers. Copy them to a directory on the device and set `BPFTRACE_KERNEL_SOURCE` to point to that directory. In addition you might be required to help bpftrace recognize the architecture by setting ARCH environment variable:
+In order to enable bpftrace to operate on kernel data structures you need to tell it where to look for kernel headers. Copy them to a directory on the device and set `BPFTRACE_KERNEL_SOURCE` to point to that directory.
 ```bash
-export ARCH=arm64
 export BPFTRACE_KERNEL_SOURCE=<path to kernel headers>
+```
+
+In addition you might want to configure `BCC_SYMFS` variable to tell bcc where to look for so files containing debug symbols.
+```bash
+export BCC_SYMFS=<path to symfs>
 ```
 
 ## Kernel requirements
@@ -57,10 +62,12 @@ When building custom kernel for Android the following resources might provide he
 - [instructions for building AOSP](https://source.android.com/setup/build/requirements)
 - [instructions for building Kernel for Android](https://source.android.com/setup/build/building-kernels)
 
-## Getting bpftrace to work with Google Pixel 2 (Linux 4.4)
-Google Pixel 2 runs Linux version 4.4 which severely limits capabilities of bpftrace. You can work around that by using [this fork](https://github.com/michalgr/kernel_msm/tree/basic_bpf_tracing_pixel2) instead of default kernel available in AOSP. The fork is based on Android's `android-9.0.0_r35` tag and contains number of backported changes enabling kprobe and tracepoint providers, as well as bringing number of bpf helper functions.
+## Getting Android kernels for older devices
+Below is a list of Android kernel forks I am aware of that support bpf, kprpbes, uprobes and tracepoints and targetting older devices:
+- [Pixel 2, Android 9, Linux 4.4](https://github.com/michalgr/kernel_msm/tree/bpf_wahoo_defconfig)
+- [Pixel 3a, Android 10, Linux 4.9](https://github.com/michalgr/kernel_msm/tree/pixel3a.QP1A.190711.020.C3.bpf)
+- [x86_64 emulator, Android 9, Linux 4.4](https://github.com/michalgr/kernel_goldfish/tree/android-goldfish-4.4-bpf)
 
-**TODO**: as of now the fork does not support arm64 uprobes.
 ## Android ndk requirement (r17c)
 Build scripts in this repo target API level 28. At the same time, elfutils demands that provided c compiler understands nested functions, which clang does not. Unfortunately gcc in ndk was deprecated and removed in r18b. The only ndk satisfying all the conditions is r17c.
 
