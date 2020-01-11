@@ -63,7 +63,7 @@ if(EMBED_LIBCLANG_ONLY)
   include_directories(SYSTEM ${CLANG_INCLUDE_DIRS})
 else()
   set(CLANG_LIBRARY_TARGETS
-      clang
+      libclang_static
       clangAST
       clangAnalysis
       clangBasic
@@ -136,6 +136,9 @@ clang_platform_config(CLANG_PATCH_COMMAND
 
 set(CLANG_TARGET_LIBS "")
 foreach(clang_target IN LISTS CLANG_LIBRARY_TARGETS)
+  if(${clang_target} STREQUAL "libclang_static")
+    set(clang_target "clang")
+  endif()
   list(APPEND CLANG_TARGET_LIBS "<INSTALL_DIR>/lib/lib${clang_target}.a")
 endforeach(clang_target)
 
@@ -167,6 +170,10 @@ set(CLANG_EMBEDDED_CMAKE_TARGETS "")
 include_directories(SYSTEM ${EMBEDDED_CLANG_INSTALL_DIR}/include)
 
 foreach(clang_target IN LISTS CLANG_LIBRARY_TARGETS)
+  if(${clang_target} STREQUAL "libclang_static")
+    set(clang_target "clang")
+  endif()
+
   # Special handling is needed to not overlap with the library definition from
   # system cmake files for Clang's "clang" target.
   if(EMBED_LIBCLANG_ONLY AND ${clang_target} STREQUAL "clang")
