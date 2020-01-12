@@ -14,6 +14,7 @@
 #include <unistd.h>
 
 #include "utils.h"
+#include "bcc_elf.h"
 #include "bcc_usdt.h"
 
 namespace {
@@ -582,7 +583,7 @@ resolve_binary_path(const std::string &cmd, const char *env_paths, int pid)
       rel_path = path_for_pid_mountns(pid, path);
     else
       rel_path = path;
-    if (access(rel_path.c_str(), X_OK) == 0)
+    if (bcc_elf_is_exe(rel_path.c_str()) || bcc_elf_is_shared_obj(rel_path.c_str()))
       valid_executable_paths.push_back(rel_path);
   }
 
