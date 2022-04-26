@@ -106,8 +106,9 @@ cc_binary {
     name: "bpftrace",
     defaults: ["bpftrace_defaults"],
     srcs: ["*.cpp"],
+    static_executable: true,
     lto: {
-        thin: true,
+        never: true,
     },
     cflags: [
         "-Wno-extern-c-compat",
