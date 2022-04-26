@@ -446,7 +446,8 @@ void AttachedProbe::attach_uprobe()
                                         eventname().c_str(),
                                         probe_.path.c_str(),
                                         offset(),
-                                        probe_.pid);
+                                        probe_.pid,
+                                        0);
 
   if (perf_event_fd < 0)
     throw std::runtime_error("Error attaching probe: " + probe_.name);
@@ -498,7 +499,7 @@ void AttachedProbe::attach_usdt(int pid)
   probe_.loc = loc.address;
 
   int perf_event_fd = bpf_attach_uprobe(progfd_, attachtype(probe_.type),
-      eventname().c_str(), probe_.path.c_str(), offset(), pid == 0 ? -1 : pid);
+      eventname().c_str(), probe_.path.c_str(), offset(), pid == 0 ? -1 : pid, 0);
 
   if (perf_event_fd < 0)
   {
